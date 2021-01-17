@@ -1,0 +1,24 @@
+	class RollingHash {
+		int m;
+		long q = 1000000007L;
+		long R = 23, RM = 1;
+
+		RollingHash(int m) {
+			this.m = m;
+			for (int i = 0; i < m - 1; i++)
+				RM = (RM * R) % q;
+		}
+
+		int[] hash(String str) {
+			int[] ret = new int[str.length() - m + 1];
+			long txtHash = 0;
+			for (int i = 0; i < str.length(); i++) {
+				if (i >= m)
+					txtHash = (txtHash + q - RM * str.charAt(i - m) % q) % q;
+				txtHash = (txtHash * R + str.charAt(i)) % q;
+				if (i >= m - 1)
+					ret[i - m + 1] = (int) txtHash;
+			}
+			return ret;
+		}
+	}

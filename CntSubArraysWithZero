@@ -1,0 +1,12 @@
+            ll ans = 0;
+            for (int i = 0, j = 0; i < n; ++ i){
+                while (j < n && !cntz){
+                    cntz += arr[j] == 0;
+                    ++ j;
+                }
+                if (cntz){
+                    ans += n - j + 1;
+                }
+                cntz -= arr[i] == 0;
+            }
+            return ans;

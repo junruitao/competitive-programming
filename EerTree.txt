@@ -1,0 +1,66 @@
+	class PalindromicTree {
+		class Node {
+			int length;
+			Node[] edges = new Node[256];
+			Node suffixLink = null;
+
+			public Node(int length) {
+				this.length = length;
+			}
+		}
+
+		Node fictive = new Node(-1);
+		Node empty = new Node(0);
+
+		public PalindromicTree() {
+			empty.suffixLink = fictive;
+			fictive.suffixLink = fictive;
+		}
+
+		public int solve(String S) {
+			Set<String> s = new HashSet<String>();
+			int length = 0; // by default, the longest palindromic substring is the
+							// empty string
+			Node T = empty;
+			/*
+			 * T is the largest proper palindrome suffix for the current prefix
+			 */
+			for (int i = 0; i < S.length(); i++) {
+				char c = S.charAt(i);
+
+				Node current = T;
+				while (current != fictive) {
+					int index = i - current.length - 1;
+					if (index >= 0 && S.charAt(index) == c) {
+						break;
+					}
+					current = current.suffixLink;
+				}
+				
+				Node newNode = new Node(current.length + 2);
+				current.edges[S.charAt(i)] = newNode;
+				
+				// now find the largest proper palindrome suffix for the new node
+				// palindrome
+
+				if (current == fictive) {
+					newNode.suffixLink = empty;
+				} else {
+					current = current.suffixLink;
+					while (current != fictive) {
+						int index = i - current.length - 1;
+						if (index >= 0 && S.charAt(index) == c) {
+							break;
+						}
+						current = current.suffixLink;
+					}
+					newNode.suffixLink = current.edges[c];
+				}
+				T = newNode;
+//				if (newNode.length>1)
+				s.add(S.substring(i - newNode.length + 1, i + 1));
+			}
+
+			return s.size();
+		}
+	}

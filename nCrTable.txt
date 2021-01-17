@@ -1,0 +1,9 @@
+	long[][] com;
+
+	{
+		com = new long[1001][1001];
+		com[0][0] = 1;
+		for (int i = 1; i <= 1000; i++)
+			for (int j = 0; j <= i; j++)
+				com[i][j] = ((j > 0 ? com[i - 1][j - 1] : 0) + com[i - 1][j]) % M;
+	}
