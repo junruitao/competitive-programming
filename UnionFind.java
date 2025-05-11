@@ -1,4 +1,4 @@
-	// index 1 based
+	// index 0 based
 	int p[];
 	int size[];
 
@@ -11,9 +11,16 @@
 		size[v0] += size[u0];
 	}
 
-	private int find(int x) {
-		if (p[x] == 0)
-			return x;
-		else
-			return p[x] = find(p[x]);
-	}
+	    private int find(int x) {
+	        if (p[x] == x)
+	            return x;
+	        else
+	            return p[x] = find(p[x]);
+	    }
+	
+	    void init() {
+	        p = new int[n];
+	        size = new int[n];
+	        Arrays.setAll(p, i -> p[i] = i);
+	        Arrays.setAll(size, i -> 1);
+	    }
